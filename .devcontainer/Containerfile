@@ -1,0 +1,70 @@
+FROM debian:trixie-slim
+
+# Define environment variables
+ARG DEBIAN_FRONTEND=noninteractive
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    curl \
+    git \
+    gnupg \
+    zip \
+    # Install Node.js, PNPM, and Playwright with browsers
+    && curl -fsSL https://deb.nodesource.com/setup_current.x | bash - \
+    && apt-get install -y --no-install-recommends nodejs \
+    && curl -fsSL https://get.pnpm.io/install.sh | bash - \
+    && pnpm install -g playwright \
+    && playwright install --with-deps \
+    # Install PHP, and extensions
+    && apt-get install -y --no-install-recommends \
+    php \
+    php-bcmath \
+    php-calendar \
+    php-cli \
+    php-common \
+    php-ctype \
+    php-curl \
+    php-dom \
+    php-exif \
+    php-fileinfo \
+    php-ftp \
+    php-gd \
+    php-gmp \
+    php-iconv \
+    php-intl \
+    php-ldap \
+    php-mbstring \
+    php-mysqli \
+    php-mysqlnd \
+    php-opcache \
+    php-pdo \
+    php-pgsql \
+    php-posix \
+    php-readline \
+    php-simplexml \
+    php-soap \
+    php-sockets \
+    php-sqlite3 \
+    php-sysvsem \
+    php-tokenizer \
+    php-xml \
+    php-xmlreader \
+    php-xmlwriter \
+    php-zip \
+    # --- Install Composer ---
+    # Set IPv4-mapped IPv6 addresses to default precedence
+    && echo "precedence ::ffff:0:0/96 100" >> /etc/gai.conf \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    # Clean up
+    && apt-get autoremove -y \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN groupadd --gid 1000 dev \
+    && useradd --uid 1000 --gid 1000 -m dev \
+    && chown -R dev:dev /home/dev
+
+USER dev

@@ -1,0 +1,24 @@
+{
+    "build": {
+        "dockerfile": "./Containerfile",
+        "context": "."
+    },
+    "postStartCommand": "echo 'Updating dependencies...' && if [ -f composer.json ]; then composer update; else echo '⏩ Skipping composer: composer.json not found.'; fi && if [ -f package.json ]; then pnpm update --latest && pnpm playwright install; else echo '⏩ Skipping pnpm: package.json not found.'; fi",
+    "runArgs": [
+        "--shm-size=2g",
+        "--tmpfs",
+        "/tmp",
+        "--tmpfs",
+        "/run"
+    ],
+    "remoteUser": "dev",
+    "containerUser": "dev",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "github.copilot",
+                "github.copilot-chat"
+            ]
+        }
+    }
+}
