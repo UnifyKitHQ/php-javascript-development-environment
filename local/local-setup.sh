@@ -236,13 +236,23 @@ else
     log "Skipping Git configuration because the original user could not be determined."
 fi
 
-# --- 12. Clean Up ---
+# --- 12. Enable Wayland support for Electron apps ---
+log "Adding ELECTRON_OZONE_PLATFORM_HINT=auto to /etc/environment..."
+
+if ! grep -q '^ELECTRON_OZONE_PLATFORM_HINT=auto' /etc/environment; then
+    echo 'ELECTRON_OZONE_PLATFORM_HINT=auto' | tee -a /etc/environment > /dev/null
+    log "✅ Added ELECTRON_OZONE_PLATFORM_HINT to /etc/environment."
+else
+    log "ℹ️ ELECTRON_OZONE_PLATFORM_HINT already present in /etc/environment."
+fi
+
+# --- 13. Clean Up ---
 log "🧹 Cleaning up..."
 apt autoremove -y
 apt clean -y
 rm -rf /tmp/* /var/tmp/*
 
-# --- 13. Final Message ---
+# --- 14. Final Message ---
 log "✅ System setup is complete!"
 log "A reboot is recommended to ensure all changes take effect."
 log "You can reboot now by running: sudo reboot"
