@@ -2,6 +2,21 @@
 
 A modern PHP & JavaScript Development Environment with multiple deployment options and automated setup scripts. This project includes support for Google Firebase Studio (formerly Project IDX), GitHub Codespaces, and Local System Installation.
 
+## 📁 Project Structure
+
+```
+php-javascript-development-environment/
+├── .devcontainer/                      # GitHub Codespaces configuration
+│   ├── Containerfile                   # Docker container definition
+│   └── devcontainer.json               # VS Code dev container settings
+├── .idx/                               # Google Firebase Studio configuration
+│   └── dev.nix                         # Nix environment definition
+├── local/                              # Local system installation
+│   └── local-setup.sh                  # Automated setup script
+├── LICENSE                             # GNU GPL v3 license
+└── README.md                           # Project documentation
+```
+
 ## 🚀 Quick Start
 
 Choose your preferred setup method:
