@@ -13,12 +13,5 @@
     ],
     "remoteUser": "dev",
     "containerUser": "dev",
-    "customizations": {
-        "vscode": {
-            "extensions": [
-                "github.copilot",
-                "github.copilot-chat"
-            ]
-        }
-    }
+    "customizations": {}
 }

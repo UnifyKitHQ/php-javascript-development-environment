@@ -54,7 +54,7 @@ RUN apt-get update \
     php-xmlreader \
     php-xmlwriter \
     php-zip \
-    # --- Install Composer ---
+    # Install Composer
     # Set IPv4-mapped IPv6 addresses to default precedence
     && echo "precedence ::ffff:0:0/96 100" >> /etc/gai.conf \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
@@ -64,7 +64,6 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN groupadd --gid 1000 dev \
-    && useradd --uid 1000 --gid 1000 -m dev \
-    && chown -R dev:dev /home/dev
+    && useradd --uid 1000 --gid dev --shell /bin/bash -m dev
 
 USER dev
