@@ -1,4 +1,4 @@
-FROM debian:trixie-slim
+FROM debian:stable-slim
 
 # Define environment variables
 ARG DEBIAN_FRONTEND=noninteractive
