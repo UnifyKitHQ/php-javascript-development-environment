@@ -177,7 +177,7 @@ if [[ -n "$SUDO_USER" ]]; then
 
     # Install Playwright globally using the newly installed pnpm for the same user
     log "📦 Installing Playwright globally for user '$SUDO_USER'..."
-    sudo -u "$SUDO_USER" bash -c 'export PNPM_HOME="$HOME/.local/share/pnpm" && export PATH="$PNPM_HOME:$PATH" && pnpm install -g playwright && playwright install --with-deps'
+    sudo -u "$SUDO_USER" bash -c 'export PNPM_HOME="$HOME/.local/share/pnpm" && export PATH="$PNPM_HOME:$PATH" && pnpm install -g @playwright/test && playwright install --with-deps'
     log "👍 Playwright and its browsers installed globally."
     log "ℹ️ A new terminal session may be needed for 'pnpm' and 'playwright' commands to be available in your path."
 
@@ -185,7 +185,7 @@ else
     log "⚠️ Could not determine original user. Skipping pnpm and Playwright installation."
     log "To install manually, run as a regular user in this order:"
     log "1. curl -fsSL https://get.pnpm.io/install.sh | sh -"
-    log "2. pnpm install -g playwright"
+    log "2. pnpm install -g @playwright/test"
     log "3. playwright install --with-deps"
 fi
 
