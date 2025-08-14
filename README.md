@@ -32,7 +32,7 @@ Choose your preferred setup method:
 - **Minimum Disk Space**: 5GB available space
 - **Minimum RAM**: 4GB (8GB recommended for optimal performance)
 - **Operating System**: 
-  - Debian 12 (Bookworm) or Debian 13 (Trixie)
+  - Debian (Latest)
   - Nix (for Firebase Studio)
 - **Network**: Stable internet connection for cloud-based options
 
@@ -94,7 +94,7 @@ Use a containerized environment for development with full isolation.
 
 Configured via `.devcontainer/Containerfile`:
 
-- **Base Image**: Debian 13 (Trixie) with non-root dev user
+- **Base Image**: Debian Slim (Latest) with non-root dev user
 - **PHP**: Latest version with comprehensive extensions
 - **Node.js**: Latest Current version with pnpm
 - **Additional Tools**: Playwright with browser dependencies, Composer
@@ -120,7 +120,7 @@ For native system installation without virtualization. This comprehensive setup 
 
 #### Prerequisites
 
-- **Operating System**: Debian 12 (Bookworm) or Debian 13 (Trixie)
+- **Operating System**: Debian (Latest)
 - **Disk Space**: Minimum 5GB available space
 - **RAM**: 4GB minimum (8GB recommended)
 - **Network**: Stable internet connection for initial setup
@@ -130,8 +130,8 @@ For native system installation without virtualization. This comprehensive setup 
 
 Configured via `local/local-setup.sh`:
 
-- **System**: Debian with optional upgrade to Trixie
-- **PHP**: Latest version with comprehensive extensions (bcmath, curl, gd, intl, mbstring, mysql, pgsql, sqlite3, xml, zip, etc.)
+- **System**: Debian (Latest)
+- **PHP**: Latest version with all available extensions
 - **Node.js**: Latest LTS or Current version (user choice) with npm
 - **Additional Tools**: pnpm, Playwright, Composer, VS Code (optional)
 
@@ -144,7 +144,6 @@ sudo bash local/local-setup.sh
 ```
 
 **Interactive Prompts:**
-- Debian upgrade option (12 → 13)
 - VS Code installation preference
 - Node.js version choice (LTS or Current)
 - Git configuration setup
@@ -194,7 +193,7 @@ git config --global credential.helper store
 | **Node.js**          | Latest Current/LTS version for frontend tooling       |
 | **pnpm**             | Fast, disk space-efficient package manager     |
 | **Git**              | Version control system                         |
-| **Common Utilities** | `ca-certificates`, `curl`, `gnupg2`, `jq`, `unzip`, `zip`|
+| **Common Utilities** | `ca-certificates`, `curl`, `gnupg2`, `unzip`, `zip`|
 | **VS Code**          | (Optional) Can be installed by setup scripts   |
 
 ## 🚀 Getting Started
