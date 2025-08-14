@@ -92,7 +92,6 @@ apt install -y --no-install-recommends \
     curl \
     git \
     gnupg2 \
-    jq \
     zip
 
 # --- 7. Install Visual Studio Code ---
@@ -114,56 +113,27 @@ if ! command -v code &> /dev/null; then
 fi
 
 # --- 8. Install Node.js, NPM, and PNPM ---
-# This section dynamically finds the latest version and manually adds the repository.
 
-log "🔧 Preparing to add Node.js repository..."
+log "🔧 Installing Node.js..."
 
 # Ask the user for their preferred Node.js channel
 while true; do
     read -p "Install the latest Node.js 'LTS' or 'Current' release? [LTS/Current] " node_choice
     case "$node_choice" in
         [Ll][Tt][Ss] )
-            # JQ filter to find the first release object that has an 'lts' name
-            JQ_FILTER='[.[] | select(.lts)][0].version'
-            log "👍 Selected latest 'LTS' release.";
+            log "👍 Selected latest 'LTS' release."
+            curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
             break;;
         [Cc]urrent )
-            # JQ filter to find the first release object that does NOT have an 'lts' name
-            JQ_FILTER='[.[] | select(.lts | not)][0].version'
-            log "👍 Selected latest 'Current' release.";
+            log "👍 Selected latest 'Current' release."
+            curl -fsSL https://deb.nodesource.com/setup_current.x | bash -
             break;;
         * )
             log "❌ Invalid choice. Please enter 'LTS' or 'Current'.";;
     esac
 done
 
-# Dynamically determine the major version number from the official Node.js releases JSON
-log "🔍 Finding latest version number from nodejs.org..."
-NODE_VERSION_STRING=$(curl $CURL_OPTS -s https://nodejs.org/dist/index.json | jq -r "$JQ_FILTER")
-
-if [ -z "$NODE_VERSION_STRING" ]; then
-    log "❌ Could not determine Node.js version. Aborting Node.js setup."
-    exit_gracefully
-fi
-
-# Extract just the major version number (e.g., "v22.5.0" -> "22")
-NODE_MAJOR=$(echo "$NODE_VERSION_STRING" | sed 's/^v//' | cut -d. -f1)
-log "✅ Found version: ${NODE_VERSION_STRING}. Using major version: ${NODE_MAJOR}"
-
-# Add the NodeSource GPG key
-log "Adding NodeSource GPG key..."
-mkdir -p /etc/apt/keyrings
-curl $CURL_OPTS -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
-
-# Add the NodeSource repository for the determined major version
-log "Adding Node.js v${NODE_MAJOR} repository..."
-echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" > /etc/apt/sources.list.d/nodesource.list
-
-# Update package lists and install Node.js
-log "Updating package lists for Node.js..."
-apt update
-
-log "📦 Installing Node.js..."
+# Install Node.js
 apt install -y --no-install-recommends nodejs
 
 # Upgrading npm and installing pnpm globally
