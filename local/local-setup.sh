@@ -65,25 +65,10 @@ else
     log "👍 IPv4 precedence already set in /etc/gai.conf."
 fi
 
-# --- 5. Handle System & Release Upgrade ---
-if [[ -f /etc/os-release ]] && . /etc/os-release && [[ "$ID" == "debian" ]]; then
-    read -p "This is a Debian system. Do you want to upgrade from Debian 12 (Bookworm) to Debian 13 (Trixie)? [y/N] " response
-    if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
-        log "🚀 Upgrading from Bookworm to Trixie..."
-        sed -i 's/bookworm/trixie/g' /etc/apt/sources.list
-        apt update
-        apt full-upgrade -y
-    else
-        log "Skipping Debian release upgrade. Continuing with a standard system update..."
-        apt update
-        apt upgrade -y
-    fi
-else
-    log "ℹ️  OS is not Debian. Skipping the release upgrade prompt."
-    log "Performing standard system update..."
-    apt update
-    apt upgrade -y
-fi
+# --- 5. Standard System Update ---
+log "ℹ️ Performing standard system update..."
+apt update
+apt upgrade -y
 
 # --- 6. Install Essential Packages ---
 log "📦 Installing essential packages..."
